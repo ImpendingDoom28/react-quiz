@@ -16,6 +16,28 @@ export const Wrapper = styled.div`
     }
 `;
 
+export const InputField = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    font-size: 1.1rem;
+
+    select {
+        width: inherit;
+    }
+`;
+
+export const FieldsContainer = styled.div`
+    max-width: 600px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+`;
+
 type ButtonWrapperProps = {
     correct: boolean;
     userClicked: boolean;

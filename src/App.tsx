@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { fetchQuizQuestions } from "./API";
 //Components
 import QuestionCard from "./components/QuestionCard";
+import Settings from './components/Settings';
 //Types
 import { Difficulty, Type, Category, QuestionState } from "./API";
 //Styles
@@ -26,7 +27,10 @@ const App = () => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
 
-  console.log();
+  //Quiz settings
+  const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.HARD);
+  const [type, setType] = useState<Type>(Type.MULTIPLE);
+  const [category, setCategory] = useState<Category>(Category.ANIME);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -34,9 +38,9 @@ const App = () => {
 
     const newQuestions = await fetchQuizQuestions(
       TOTAL_QUESTIONS,
-      Difficulty.HARD,
-      Type.MULTIPLE,
-      Category.ANIME
+      difficulty,
+      type,
+      category
     );
 
     setQuestions(newQuestions);
@@ -44,7 +48,6 @@ const App = () => {
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
-    console.log(newQuestions);
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -80,32 +83,58 @@ const App = () => {
     <>
       <GlobalStyle />
       <Wrapper>
-        {gameOver && <h1>React Quiz</h1>}
-        {(gameOver || userAnswers.length === TOTAL_QUESTIONS) && (
-          <button className="start" onClick={startTrivia}>
-            Start Quiz!!!
-          </button>
-        )}
-        {!gameOver && <p className="score">Score: {score}</p>}
-        {loading && <p className="loading">Loading Questions...</p>}
-        {!loading && !gameOver && (
-          <QuestionCard
-            questionNumber={number + 1}
-            totalQuestions={TOTAL_QUESTIONS}
-            question={questions[number].question}
-            answers={questions[number].answers}
-            userAnswer={userAnswers ? userAnswers[number] : undefined}
-            callback={checkAnswer}
-          />
-        )}
-        {!gameOver &&
+        {
+          (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
+          <h1>React Quiz</h1>
+        }
+        {
+          (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
+          (
+            <>
+              <Settings
+                setCategory={setCategory}
+                setType={setType}
+                setDifficulty={setDifficulty}
+              />
+              <button className="start" onClick={startTrivia}>
+                {userAnswers.length > 1 ? "Try again!!!" : "Start Quiz!!!"}
+              </button>
+            </>
+          )
+        }
+        {
+          !gameOver &&
+          <p className="score">{userAnswers.length === TOTAL_QUESTIONS ? "Final score: " : "Score: "}{score}</p>
+        }
+        {
+          loading &&
+          <p className="loading">Loading Questions...</p>
+        }
+        {
+          !loading &&
+          !gameOver &&
+          userAnswers.length !== TOTAL_QUESTIONS && (
+            <QuestionCard
+              questionNumber={number + 1}
+              totalQuestions={TOTAL_QUESTIONS}
+              question={questions[number].question}
+              answers={questions[number].answers}
+              userAnswer={userAnswers ? userAnswers[number] : undefined}
+              callback={checkAnswer}
+            />
+          )
+        }
+        {
+          !gameOver &&
           !loading &&
           userAnswers.length === number + 1 &&
-          number !== TOTAL_QUESTIONS - 1 && (
+          userAnswers.length < TOTAL_QUESTIONS &&
+          (
             <button className="next" onClick={nextQuestion}>
               Next Question
             </button>
-          )}
+          )
+        }
       </Wrapper>
     </>
   );
