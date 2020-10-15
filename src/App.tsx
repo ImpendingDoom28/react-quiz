@@ -18,7 +18,6 @@ const App = () => {
 
   const TOTAL_QUESTIONS = 10;
 
-  const [isSelecting, setSelecting] = useState(true);
   const [loading, setLoading] = useState(false);
   //Tell the code that the initialState array is a type of array of Question states
   const [questions, setQuestions] = useState<QuestionState[]>([]);
