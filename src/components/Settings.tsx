@@ -85,6 +85,10 @@ const Settings: React.FC<Props> = (
 		{
 			type: Category.BOARD_GAMES,
 			text: "Board Games",
+		},
+		{
+			type: Category.NATURE,
+			text: "Nature"
 		}
 	]
 
