@@ -50,6 +50,18 @@ const App = () => {
     setLoading(false);
   }
 
+  const reset = () => {
+    setLoading(false);
+    setQuestions([]);
+    setNumber(0);
+    setUserAnswers([]);
+    setScore(0);
+    setGameOver(true);
+    setDifficulty(Difficulty.HARD);
+    setType(Type.MULTIPLE);
+    setCategory(Category.ANIME);
+  }
+
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       //Users answer
@@ -91,11 +103,19 @@ const App = () => {
           (gameOver || userAnswers.length === TOTAL_QUESTIONS) &&
           (
             <>
-              <Settings
-                setCategory={setCategory}
-                setType={setType}
-                setDifficulty={setDifficulty}
-              />
+              {
+                userAnswers.length === TOTAL_QUESTIONS ? (
+                  <button className="start" onClick={reset}>
+                    Change Settings
+                  </button>
+                ) : (
+                    <Settings
+                      setCategory={setCategory}
+                      setType={setType}
+                      setDifficulty={setDifficulty}
+                    />
+                  )
+              }
               <button className="start" onClick={startTrivia}>
                 {userAnswers.length > 1 ? "Try again!!!" : "Start Quiz!!!"}
               </button>
@@ -104,7 +124,9 @@ const App = () => {
         }
         {
           !gameOver &&
-          <p className="score">{userAnswers.length === TOTAL_QUESTIONS ? "Final score: " : "Score: "}{score}</p>
+          <p className="score">
+            {userAnswers.length === TOTAL_QUESTIONS ? "Final score: " : "Score: "}{score}
+          </p>
         }
         {
           loading &&
@@ -113,7 +135,7 @@ const App = () => {
         {
           !loading &&
           !gameOver &&
-          userAnswers.length !== TOTAL_QUESTIONS && (
+          (
             <QuestionCard
               questionNumber={number + 1}
               totalQuestions={TOTAL_QUESTIONS}

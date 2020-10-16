@@ -32,6 +32,15 @@ export const Wrapper = styled.div`
         color: white;
     }
 
+    .loading {
+        padding: 0.5rem;
+        font-size: 1.1rem;
+        background: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 8px;
+    }
+
     .score {
         color: #000000;
         font-size: 1.5rem;
