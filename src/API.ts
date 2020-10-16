@@ -8,8 +8,33 @@ export enum Type {
     MULTIPLE = "multiple", TRUEFALSE = "boolean"
 }
 
+
 export enum Category {
-    ANIME = 31, RANDOM = "random"
+    RANDOM = "any",
+    GENERAL = 9,
+    BOOKS,
+    FILMS,
+    MUSIC,
+    MUSICALS_AND_THEATERS,
+    TV,
+    VIDEO_GAMES,
+    BOARD_GAMES,
+    NATURE,
+    COMPUTERS,
+    MATHEMATICS,
+    MYTHOLOGY,
+    SPORTS,
+    GEOGRAPHY,
+    HISTORY,
+    POLITICS,
+    ART,
+    CELEBRITIES,
+    ANIMALS,
+    VEHICLES,
+    COMICS,
+    GADGETS,
+    ANIME,
+    CARTOONS
 }
 
 export type Question = {
